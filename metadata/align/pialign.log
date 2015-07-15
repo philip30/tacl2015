@@ -1,0 +1,107 @@
+Loaded corpus: 880/880 sentences used
+Initializing model 1
+Finished initializing, starting training
+ Iteration 1: likelihood -36803.9
+ Iteration 2: likelihood -18629.4
+ Iteration 3: likelihood -16308.9
+ Iteration 4: likelihood -15590.4
+ Iteration 5: likelihood -15330.5
+ Iteration 6: likelihood -15215
+ Iteration 7: likelihood -15154.1
+ Iteration 8: likelihood -15117.8
+ Iteration 9: likelihood -15094
+ Iteration 10: likelihood -15077.3
+ Iteration 11: likelihood -15065.1
+Initializing model 1
+Finished initializing, starting training
+ Iteration 1: likelihood -17804.3
+ Iteration 2: likelihood -8565.12
+ Iteration 3: likelihood -6820.05
+ Iteration 4: likelihood -6307.78
+ Iteration 5: likelihood -6142.4
+ Iteration 6: likelihood -6076.14
+ Iteration 7: likelihood -6043.93
+ Iteration 8: likelihood -6025.75
+ Iteration 9: likelihood -6014.37
+ Iteration 10: likelihood -6006.75
+ Iteration 11: likelihood -6001.4
+Iter 1 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=5.13646 d=0.741721
+ Type term=0.177494 reg=0.521837 inv=0.300669
+ Phrases: e=2305, f=1517, j=2384
+ Likelihood=-2.64632
+ Time=0.529281s (r=0.000183, i=0.004044, b=0.124827, g=0.037016, l=0.012387, f=0.204604, s=0.041499)
+ Avg. Beam=7.03563, Accepted=100%
+Iter 2 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=6.14373 d=0.774629
+ Type term=0.188842 reg=0.505143 inv=0.306014
+ Phrases: e=2160, f=1466, j=2238
+ Likelihood=-2.08291
+ Time=0.452994s (r=0.00298, i=0.003894, b=0.107301, g=0.038414, l=0.0109, f=0.16165, s=0.048749)
+ Avg. Beam=7.07983, Accepted=100%
+Iter 3 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=5.65082 d=0.778326
+ Type term=0.202147 reg=0.496149 inv=0.301704
+ Phrases: e=2131, f=1456, j=2203
+ Likelihood=-2.02512
+ Time=0.564254s (r=0.003004, i=0.003125, b=0.129024, g=0.047972, l=0.014068, f=0.209008, s=0.060409)
+ Avg. Beam=7.23807, Accepted=100%
+Iter 4 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=5.46781 d=0.773901
+ Type term=0.207237 reg=0.493233 inv=0.29953
+ Phrases: e=2122, f=1455, j=2197
+ Likelihood=-2.00724
+ Time=0.561959s (r=0.003234, i=0.003144, b=0.128885, g=0.047229, l=0.013876, f=0.205681, s=0.060279)
+ Avg. Beam=7.12987, Accepted=100%
+Iter 5 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=5.41175 d=0.772446
+ Type term=0.20543 reg=0.497184 inv=0.297387
+ Phrases: e=2116, f=1449, j=2193
+ Likelihood=-1.99607
+ Time=0.509676s (r=0.002973, i=0.003145, b=0.120098, g=0.041008, l=0.01239, f=0.18032, s=0.053593)
+ Avg. Beam=7.09127, Accepted=100%
+Iter 6 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=4.03571 d=0.79118
+ Type term=0.213383 reg=0.482422 inv=0.304195
+ Phrases: e=2111, f=1446, j=2186
+ Likelihood=-1.99368
+ Time=0.430253s (r=0.002761, i=0.003135, b=0.105263, g=0.03578, l=0.010566, f=0.153253, s=0.044753)
+ Avg. Beam=7.20398, Accepted=100%
+Iter 7 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=4.03729 d=0.77356
+ Type term=0.209608 reg=0.486927 inv=0.303465
+ Phrases: e=2117, f=1446, j=2190
+ Likelihood=-1.99647
+ Time=0.563371s (r=0.002984, i=0.003165, b=0.128747, g=0.047325, l=0.013834, f=0.205751, s=0.059878)
+ Avg. Beam=7.1611, Accepted=100%
+Iter 8 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=3.87707 d=0.783348
+ Type term=0.214781 reg=0.478909 inv=0.30631
+ Phrases: e=2111, f=1443, j=2180
+ Likelihood=-1.99358
+ Time=0.548902s (r=0.002994, i=0.003132, b=0.126949, g=0.046017, l=0.01351, f=0.198041, s=0.057664)
+ Avg. Beam=7.09556, Accepted=100%
+Iter 9 started
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=4.554 d=0.789338
+ Type term=0.221307 reg=0.480352 inv=0.298341
+ Phrases: e=2105, f=1450, j=2179
+ Likelihood=-1.99187
+ Time=0.559863s (r=0.002982, i=0.003119, b=0.128656, g=0.047702, l=0.013875, f=0.204037, s=0.059501)
+ Avg. Beam=7.15241, Accepted=100%
+Iter 10 started, sample 1
+100200300400500600700800 Sentences Sampled: 880
+ Phrase s=5.23323 d=0.793482
+ Type term=0.225652 reg=0.475842 inv=0.298507
+ Phrases: e=2099, f=1443, j=2178
+ Likelihood=-1.99333
+ Time=0.561952s (r=0.003006, i=0.003187, b=0.128719, g=0.047899, l=0.014092, f=0.205724, s=0.059641)
+ Avg. Beam=7.19375, Accepted=100%

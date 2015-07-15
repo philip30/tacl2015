@@ -1,0 +1,51 @@
+Running Geoquery Experiment:
+
+All the configuration should be configured in config.ini
+- Locate all software dependencies there 
+- TRAIN, TUNE, TUNE_TEST (test the tune), TEST = true for do, empty for not.
+
+Experiment parameters are located in:
+script/experiment/part/parameters.sh
+
+Modifying how-to-run experiment:
+script/experiment/part/execute.sh
+
+Order running the experiment:
+1. Configure everything, make sure every dependencies are linked.
+
+2. First generate (or use) the id.
+   
+   $ script/prepare/wong-id.sh
+   This will generate the id/wong-split directories.
+   The important thing is to also generate the 10-folds directory for tuning.
+   The experiment is 10-folds, for each fold, another 10-folds are done against it for tuning.
+
+3. Generate the data 
+   This will map the id, to the real geoquery data.
+
+   $ script/prepare/data.sh
+   This will prepare the full-question data. 
+   The full-question data is used for baseline experiment.
+
+   $ script/prepare/kw.sh
+   This will prepare the in-order simulated keyword data.
+
+   $ script/prepare/data-kwshuf-real.sh
+   This will prepare the shuffled keyword data
+
+4. Run the experiment.
+   All the experiment are located in "script/experiment" directories.
+
+   baseline.sh -> Baseline experiment
+   keyword.sh -> Direct keyword-MR (Meaning Representation)
+   keyword-shuf.sh -> Direct shuffled-MR
+   kw.sh -> 3Sync k-MR without LM
+   kw-q.sh -> kw.sh + Question LM
+   kw-news.sh -> kw.sh + News LM
+   kw-geo.sh -> kw.sh + GEO LM
+   kw-geonews.sh -> kw.sh + GEO-NEWS LM
+   kw-geoq.sh -> kw.sh + GEO-Q LM
+   kw-geoall.sh -> kw.sh + GEO-NEWS-Q LM
+   kw-shuf-**.sh -> 3Sync shuffled-MR + **LM
+
+
