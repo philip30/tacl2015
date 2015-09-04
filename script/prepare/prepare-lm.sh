@@ -10,7 +10,6 @@ set -o xtrace
 source config.ini
 
 p_travatar="-travatar $TRAVATAR"
-p_srilm="-srilm $SRILM"
 p_stanford_parser="-stanford-parser $STANFORD_JAR"
 p_lm="$p_travatar $p_srilm $p_stanford_parser"
 data="data/full-question"
@@ -21,21 +20,24 @@ if [ ! -d lm ]; then
     mkdir -p lm
 fi
 
-P_NEWS=
-P_QUESTIONS=
+P_NEWS=true
+P_QUESTIONS=true
 P_GEO=true
-P_INTERPOLATE=
+P_NNLM=true
 
+# News Language Model
 if [[ $P_NEWS = true ]]; then
 echo "=========== Preparing NEWS 2009 ============="
 script/data/make-lm.pl $p_stem $p_lm -prefix "lm-news" -working-dir $p_prefix/news2009 -input $NEWS
 fi
 
+# Question Language Model
 if [[ $P_QUESTIONS = true ]]; then
 echo "=========== Preparing QUESTIONS ============="
 script/data/make-lm.pl $p_stem $p_lm -prefix "lm-questions" -working-dir $p_prefix/questions -input $QUESTIONS
 fi
 
+# Geoquery Language Model
 if [[ $P_GEO = true ]]; then
 echo "=========== Preparing GEOQUERY =============="
 # For every fold
@@ -48,18 +50,9 @@ for j in ${NUM_FOLD[*]}; do
 done
 fi
 
-if [[ $P_INTERPOLATE = true ]]; then
-echo "=========== Preparing Interpolated GEOQUERY =============="
-for i in ${NUM_RUN[*]}; do
-# For every fold
-#for j in ${NUM_FOLD[*]}; do
-    j=$1
-    script/data/interpolate-lm.pl --tuning $data/sent.stem --name $p_prefix/geoquery/fold-$j/lm-geo-news.arpa -lm $p_prefix/geoquery/fold-$j/lm-geo.arpa,$p_prefix/news2009/lm-news.arpa --srilm $SRILM
-    script/data/interpolate-lm.pl --tuning $data/sent.stem --name $p_prefix/geoquery/fold-$j/lm-geo-questions.arpa -lm $p_prefix/geoquery/fold-$j/lm-geo.arpa,$p_prefix/questions/lm-questions.arpa --srilm $SRILM
-    script/data/interpolate-lm.pl --tuning $data/sent.stem --name $p_prefix/geoquery/fold-$j/lm-geo-all.arpa -lm $p_prefix/geoquery/fold-$j/lm-geo.arpa,$p_prefix/questions/lm-questions.arpa,$p_prefix/news2009/lm-news.arpa --srilm $SRILM
-    $TRAVATAR/src/kenlm/lm/build_binary -i $p_prefix/geoquery/fold-$j/lm-geo-news.arpa $p_prefix/geoquery/fold-$j/lm-geo-news.blm
-    $TRAVATAR/src/kenlm/lm/build_binary -i $p_prefix/geoquery/fold-$j/lm-geo-questions.arpa $p_prefix/geoquery/fold-$j/lm-geo-questions.blm
-    $TRAVATAR/src/kenlm/lm/build_binary -i $p_prefix/geoquery/fold-$j/lm-geo-all.arpa $p_prefix/geoquery/fold-$j/lm-all.blm
-#done
-done
+# NNLM Language model
+if [[ $P_NNLM = true ]]; then
+echo "=========== Prerparing NNLM ================"
+script/nnlm/get-data.sh
+script/nnlm/lamtram.sh
 fi

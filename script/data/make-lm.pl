@@ -41,6 +41,7 @@ safesystem("mkdir -p $WORKING_DIR") or die;
 my $file_name = ($PREFIX ? $PREFIX : substr($INPUT, rindex($INPUT, '/')+1));
 safesystem("java -cp $STANFORD_JAR edu.stanford.nlp.process.PTBTokenizer -preserveLines $INPUT | sed 's/(/-LRB-/g; s/)/-RRB-/g' | sort -u > $WORKING_DIR/$file_name.tok") or die;
 safesystem("$TRAVATAR/script/tree/lowercase.pl < $WORKING_DIR/$file_name.tok > $WORKING_DIR/$file_name.toklow") or die;
+safesystem("sed -i \"/^$/d\" $WORKING_DIR/$file_name.toklow") or die;
 
 if ($STEM) {
     safesystem("script/data/stem.pl < $WORKING_DIR/$file_name.toklow > $WORKING_DIR/$file_name.stem") or die;

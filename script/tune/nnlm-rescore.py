@@ -9,6 +9,8 @@ parser = argparse.ArgumentParser(description="RNNLM Rescore")
 parser.add_argument("--score", type=str, required=True)
 parser.add_argument("--input", type=str, required=True)
 parser.add_argument("--ini", type=str, required=True)
+parser.add_argument("--output", type=str)
+parser.add_argument("--extract_one_best",action="store_true")
 args = parser.parse_args()
 
 # Read the weight files
@@ -37,7 +39,6 @@ with open(args.input) as nbest_file:
             l2 = l2.replace("ll", "nnlm")
             l2 = l2.replace("unk", "nnunk") 
             n = int(l1[0])
-
             features = {}
             for feat in (l1[-1] + " " + l2).split():
                 key, value = feat.split("=")
@@ -56,9 +57,16 @@ for n, nbest in nbest_dict.items():
     nbest_dict[n] = nbest
 
 # Output
-with open(args.input, "w") as out_file:
+out_file_dir = args.output if args.output else args.input
+with open(out_file_dir, "w") as out_file:
     for n in sorted(nbest_dict.keys()):
         nbest = nbest_dict[n]
-        for line in nbest:
-            print >> out_file, " ||| ".join(map(lambda x: str(x),line))
-    
+        if args.extract_one_best:
+            if len(nbest) >= 1:
+                print >> out_file, nbest[0][1]
+            else:
+                print >> out_file, "" 
+        else:
+            for line in nbest:
+                print >> out_file, " ||| ".join(map(lambda x: str(x),line))
+

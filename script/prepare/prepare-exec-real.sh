@@ -42,6 +42,7 @@ for j in {0..9}; do
     $extractor $data/gold-standard $id/run-$i/fold-$j/test > $data/run-$i/fold-$j/test.ref
     $extractor $data/mrl $id/run-$i/fold-$j/test > $data/run-$i/fold-$j/test.mrl
     $extractor $data/test-sent.stem $id/run-$i/fold-$j/test > $data/run-$i/fold-$j/test.sent
+    $extractor $data/test-sent.stem $id/run-$i/fold-$j/train > $data/run-$i/fold-$j/train.kw
     $extractor $data/sent.stem $id/run-$i/fold-$j/test > $data/run-$i/fold-$j/test.fullsent
     $extractor $data/time $id/run-$i/fold-$j/test > $data/run-$i/fold-$j/test.time
 
@@ -55,6 +56,7 @@ for j in {0..9}; do
         $extractor $data/gold-standard $id/run-$i/fold-$j/tune/test-$k > $data/run-$i/fold-$j/tune/test-$k.ref
         $extractor $data/mrl $id/run-$i/fold-$j/tune/test-$k > $data/run-$i/fold-$j/tune/test-$k.mrl
         $extractor $data/test-sent.stem $id/run-$i/fold-$j/tune/test-$k > $data/run-$i/fold-$j/tune/test-$k.sent
+        $extractor $data/test-sent.stem $id/run-$i/fold-$j/tune/train-$k > $data/run-$i/fold-$j/tune/train-$k.kw
         $extractor $data/time $id/run-$i/fold-$j/tune/test-$k > $data/run-$i/fold-$j/tune/test-$k.time
     
         paste $data/run-$i/fold-$j/tune/test-$k.ref $data/run-$i/fold-$j/tune/test-$k.mrl $data/run-$i/fold-$j/tune/test-$k.time > $data/run-$i/fold-$j/tune/test-$k.mrl.time.ref

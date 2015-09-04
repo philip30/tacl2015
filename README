@@ -11,14 +11,17 @@ Modifying how-to-run experiment:
 script/experiment/part/execute.sh
 
 Order running the experiment:
-1. Configure everything, make sure every dependencies are linked.
+1. - Configure everything, make sure every dependencies are linked (inside config.ini).
+   - Configure mysql database (config/mysql.config), this experiment uses mysql to cache the query being fired to geoquery.  
+     Basically you don't need to edit any file inside config directory except mysql.config. 
 
-2. First generate (or use) the id.
+2. Extract id.tar.gz
    
-   $ script/prepare/wong-id.sh
-   This will generate the id/wong-split directories.
+   $ tar xzf id.tar.gz 
+   This will generate the id/wong-split and id/andreas-split directories.
    The important thing is to also generate the 10-folds directory for tuning.
    The experiment is 10-folds, for each fold, another 10-folds are done against it for tuning.
+   You can decide whether you want to keep or remove id.tar.gz after that
 
 3. Generate the data 
    This will map the id, to the real geoquery data.
@@ -27,25 +30,27 @@ Order running the experiment:
    This will prepare the full-question data. 
    The full-question data is used for baseline experiment.
 
-   $ script/prepare/kw.sh
-   This will prepare the in-order simulated keyword data.
-
    $ script/prepare/data-kwshuf-real.sh
    This will prepare the shuffled keyword data
 
-4. Run the experiment.
+4. Generate Language model
+   $ script/prepare/prepare-lm.sh
+
+   This process will take so long, it's better to run the process inside that prepare-lm.sh in separate computer.
+
+5. Run the experiment.
    All the experiment are located in "script/experiment" directories.
 
-   baseline.sh -> Baseline experiment
-   keyword.sh -> Direct keyword-MR (Meaning Representation)
-   keyword-shuf.sh -> Direct shuffled-MR
-   kw.sh -> 3Sync k-MR without LM
-   kw-q.sh -> kw.sh + Question LM
-   kw-news.sh -> kw.sh + News LM
-   kw-geo.sh -> kw.sh + GEO LM
-   kw-geonews.sh -> kw.sh + GEO-NEWS LM
-   kw-geoq.sh -> kw.sh + GEO-Q LM
-   kw-geoall.sh -> kw.sh + GEO-NEWS-Q LM
-   kw-shuf-**.sh -> 3Sync shuffled-MR + **LM
+   baseline.sh -> Baseline Question-MR.
+   keyword-shuf.sh -> Baseline KW-MR.
+   kw-shuf.sh -> 3Sync system without language model
+   kw-shuf-news.sh -> 3Sync system with language model trained on WMT NEWS-2009 data
+   kw-shuf-q.sh -> 3Sync system with language model trained on the question data.
+   kw-shuf-geo.sh -> 3Sync system with language model trained on the NL of training data.
+   
+   para-augment.sh -> 3Sync system with questions language model + paraphrasing features
 
+   * All experiments included NNLM that trained on the training data.
+   * Every script will do 2 experiments in one time (one without NNLM and one with NNLM)
 
+6. Results (later)

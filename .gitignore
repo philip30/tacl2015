@@ -17,4 +17,8 @@
 /freeze
 /lm-create
 /nnlm
+/nn-lm
 /fold-closed
+/para-augment
+.python-version
+*.swp
