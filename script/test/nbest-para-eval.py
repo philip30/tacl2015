@@ -101,6 +101,7 @@ for (number,human_id), nbest in sorted(eval.items()):
             if best:
                 if correct:
                     answer[n][para].add((sys_str, correct, best1, position))
+                    count["%s_best_correct" % (sys)] += 1
                 count["%s_%d_%s" % (sys,score, "true" if correct else "false")] += 1
                 count[sys+"_"+str(score)] += 1
                 count["%s_best" % sys] += 1
