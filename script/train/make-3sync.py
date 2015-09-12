@@ -3,7 +3,6 @@
 import sys
 import argparse
 import itertools
-import random
 from collections import defaultdict
 
 parser = argparse.ArgumentParser(description="3 Sync Grammar")

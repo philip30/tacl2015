@@ -15,6 +15,9 @@ data="data/full-question"
 data_question="data/full-question"
 data_keyword="data/keyword-shuffle"
 nl_mrl_model="fold-normal/baseline"
+p_lm="lm-geo"
+GEO_LM=true
+GEO_LM_TUNE=true
 
 source config/nnlm.config
 source script/experiment/part/parameters.sh

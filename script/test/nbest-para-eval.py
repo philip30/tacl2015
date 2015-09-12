@@ -21,8 +21,8 @@ def all_equal(l):
     return True
 
 # Read answer
-answer = defaultdict(lambda:defaultdict(lambda:defaultdict(lambda:False)))
-info = defaultdict(lambda:defaultdict(lambda:defaultdict(lambda:set())))
+
+answer = defaultdict(lambda:defaultdict(lambda:set()))
 best_1 = {}
 with open(args.answer) as answer_fp:
     for line in answer_fp:
@@ -32,8 +32,7 @@ with open(args.answer) as answer_fp:
             n = int(n)
             correct = correct == "True"
             best1 = best1 == "True"
-            answer[n][para][sys_str] = answer[n][para][sys_str] or correct
-            info[n][para][sys_str].add((best1, position))
+            answer[n][para].add((sys_str, correct, best1, position))
             if best1 and n not in best_1:
                 best_1[n] = (para, correct)
 
@@ -91,21 +90,20 @@ for (number,human_id), nbest in sorted(eval.items()):
     for query, score, ranking in nbest:
         ref = answer[number][query]
         is_correct = False
-        for sys, correct in ref.items():
-            if correct:
-                is_correct = True
-            count["%s_%d_%s" % (sys,score, "true" if correct else "false")] += 1
+        for sys, correct, best, position in ref:
             count["%s_%s_%s" % (sys,ranking, "true" if correct else "false")] += 1
+            count[sys+"_"+ranking] += 1
             count[sys] += 1
             systems.add(sys)
-            count[sys+"_"+str(score)] += 1
-            count[sys+"_"+ranking] += 1
-            if any([x for (x,y) in info[number][query][sys]]):
-                count["%s_best" % sys] += 1
-                if correct:
-                    count["%s_best_correct" % sys] += 1
-
             
+            if correct:
+                is_correct = True
+            if best:
+                if correct:
+                    answer[n][para].add((sys_str, correct, best1, position))
+                count["%s_%d_%s" % (sys,score, "true" if correct else "false")] += 1
+                count[sys+"_"+str(score)] += 1
+                count["%s_best" % sys] += 1
 
         if ranking != "Z":
             count[ranking] += 1
@@ -148,7 +146,7 @@ print "SYSTEM ACCURACY:"
 for sys in systems:
     print "[System: %s]" % sys
     for score in [0,1,2]:
-        print "Score %d = %f" % (score, float(count[sys+"_"+str(score)]) / count[sys])
+        print "Score %d = %f" % (score, float(count[sys+"_"+str(score)]) / count[sys + "_best"])
         for judge in ["true","false"]:
             print "%s_%d_%s" % (sys,score,judge),":", "%2.2f" % (float(count["%s_%d_%s" %(sys,score,judge)])/count[sys+"_"+str(score)] * 100), '%'
     print "[Ranking Score]"

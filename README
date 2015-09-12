@@ -7,7 +7,7 @@ All the configuration should be configured in config.ini
 Experiment parameters are located in:
 script/experiment/part/parameters.sh
 
-Modifying how-to-run experiment:
+Modifying how-to-run the experiment:
 script/experiment/part/execute.sh
 
 Order running the experiment:
@@ -42,6 +42,7 @@ Order running the experiment:
    All the experiment are located in "script/experiment" directories.
 
    baseline.sh -> Baseline Question-MR.
+   pipeline.sh -> Running Pipelined experiment
    keyword-shuf.sh -> Baseline KW-MR.
    kw-shuf.sh -> 3Sync system without language model
    kw-shuf-news.sh -> 3Sync system with language model trained on WMT NEWS-2009 data
@@ -52,5 +53,11 @@ Order running the experiment:
 
    * All experiments included NNLM that trained on the training data.
    * Every script will do 2 experiments in one time (one without NNLM and one with NNLM)
+   * To configure -Empty experiment, uncomment the line "source config/empty.config" in the config.ini
 
-6. Results (later)
+6. Results
+    The Results for the experiment can be seen inside the working directory.
+    The test-nnlm.result is the result +NNLM.
+    The test.result is the result -NNLM.
+    Each fold has this results, and in the working directory there is also an averaged result named with the same file.
+    The human evaluation can be found in human-eval/result.txt after unpackaging the package.

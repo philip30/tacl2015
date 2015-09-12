@@ -52,6 +52,8 @@ def intersect(input_dir, output_dir):
     modify_ini(output_dir)
 
     hit, total = 0, 0
+    out_covered = open(output_dir + "/model/covered.rule","w")
+    out_uncovered = open(output_dir + "/model/uncovered.rule","w")
     with gzip.open(output_dir + "/model/rule-table.gz", "w") as file_out:
         with gzip.open(input_dir + "/model/rule-table.gz", "r") as file_in:
             for line in file_in:
@@ -62,8 +64,13 @@ def intersect(input_dir, output_dir):
                 if (source_str, target_str) in para_feat:
                     hit += 1
                     line[2] = line[2] + " " + para_feat[source_str,target_str]
+                    out_covered.write(source_str + " ||| " + target_str + "\n")
+                else:
+                    out_uncovered.write(source_str + " ||| " + target_str + "\n")
                 file_out.write(" ||| ".join(line) + "\n")
-
+    
+    out_covered.close()
+    out_uncovered.close()
     print >> sys.stderr, "Coverage for %s: (%d/%d) = %.2f" % (input_dir, hit, total, float(hit)/total)
 
 def modify_ini(dest_dir):

@@ -8,7 +8,7 @@ binmode STDOUT, ":utf8";
 binmode STDERR, ":utf8";
 
 my ($WORKING_DIR,$NL_MRL_CONFIG,$KW_NL_CONFIG,$SRC,$REF,$GEOQUERY,$LETRAC,$TRG_FACTORS,$TRAVATAR,$DATABASE,$FORCE,$DRIVER_FUNCTION,$LAMTRAM);
-
+my $PARA_REF;
 my $THREADS="1";
 my $N_BEST="500";
 my $NO_TYPECHECK;
@@ -23,6 +23,7 @@ GetOptions(
     "kwnl-config=s" => \$KW_NL_CONFIG,
     "src=s" => \$SRC,
     "ref=s" => \$REF,
+    "para-ref=s" => \$PARA_REF,
     "geoquery=s"=> \$GEOQUERY,
     "letrac=s" => \$LETRAC,
     "lamtram=s" => \$LAMTRAM,
@@ -73,6 +74,9 @@ if ($NNLM_CONFIG) {
 }
 safesystem("$TRAVATAR/src/bin/travatar -threads $THREADS -config_file $WORKING_DIR/kw-nl.ini -nbest $N_BEST -nbest_out $WORKING_DIR/nbest-para.txt -trace_out $WORKING_DIR/out-para.trace -buffer false < $SRC > $WORKING_DIR/out-para.txt 2> $WORKING_DIR/err-para.txt") or die;
 
+
+safesystem("$TRAVATAR/src/bin/mt-evaluator -eval \"bleu\" -ref $PARA_REF $WORKING_DIR/out-para.txt > $WORKING_DIR/para.eval") or die;
+
 if ($NNLM) {
     safesystem("script/tune/extract-paraphrase.py < $WORKING_DIR/nbest-para.txt > $WORKING_DIR/paraphrase.lmin") or die;
     safesystem("$LAMTRAM/src/lamtram/lamtram --operation ppl --model_in $NNLM < $WORKING_DIR/paraphrase.lmin > $WORKING_DIR/scores.ppl") or die;
@@ -81,7 +85,6 @@ if ($NNLM) {
 
 # 2. Translate Natural Language into MRL
 safesystem("$TRAVATAR/src/bin/travatar -threads $THREADS -config_file $WORKING_DIR/nl-mrl.ini -nbest $N_BEST -nbest_out $WORKING_DIR/nbest.txt -trace_out $WORKING_DIR/out.trace -buffer false < $WORKING_DIR/paraphrase.txt > $WORKING_DIR/out.txt 2> $WORKING_DIR/err.txt") or die;
-
 
 safesystem("$TRAVATAR/script/mert/nbest-uniq.pl < $WORKING_DIR/nbest.txt | script/test/validate-nbest.py -n $ref_length > $WORKING_DIR/nbest.uniq") or die;
 my $no_typecheck = $NO_TYPECHECK ? "-no_typecheck" : "";

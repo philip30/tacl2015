@@ -27,8 +27,13 @@ for j in ${NUM_FOLD[*]}; do
         if [ -d $train_dir ]; then
             rm -r $train_dir
         fi
-
-        $TRAVATAR/script/train/train-travatar.pl -work_dir $train_dir -lm_file lm/questions/lm-questions.blm -src_file $data_keyword/run-$i/fold-$j/train.kw -trg_file $data_question/run-$i/fold-$j/train.sent $TRAINING_OPTIONS
+        if [[ $GEO_LM ]]; then
+            p_lm_exec="-lm_file lm/geoquery/fold-$j/$p_lm"
+            p_lm_exec+=".blm"
+        else
+            p_lm_exec=$p_lm
+        fi 
+        $TRAVATAR/script/train/train-travatar.pl -work_dir $train_dir $p_lm_exec -src_file $data_keyword/run-$i/fold-$j/train.kw -trg_file $data_question/run-$i/fold-$j/train.sent $TRAINING_OPTIONS
     fi
     
     # Tuning
@@ -81,9 +86,10 @@ for j in ${NUM_FOLD[*]}; do
         test_inp=$data_keyword/run-$i/fold-$j/test.sent
         test_mrl=$data/run-$i/fold-$j/test.mrl
         test_ref=$data/run-$i/fold-$j/test.ref
+        test_para=$data/run-$i/fold-$j/test.fullsent
         test_config=$tune_dir/travatar.ini
 
-        script/pipeline/run-test.pl -working-dir $test_dir -kwnl-config $tune_dir/tune-travatar/travatar.ini -nlmrl-config $nl_mrl_model/run-$i/fold-$j/tune/tune-travatar/travatar.ini -src $test_inp -ref $test_mrl.time.ref $p_test $p_nnlm -nnlm-config $tune_dir/tune-travatar/travatar-nnlm.ini
+        script/pipeline/run-test.pl -working-dir $test_dir -kwnl-config $tune_dir/tune-travatar/travatar.ini -nlmrl-config $nl_mrl_model/run-$i/fold-$j/tune/tune-travatar/travatar.ini -src $test_inp -ref $test_mrl.time.ref $p_test $p_nnlm -nnlm-config $tune_dir/tune-travatar/travatar-nnlm.ini -para-ref $test_para
         
         # Creating Report
         script/test/make-report.py --reduct $test_dir/nbest.reduct --input $test_inp --reference $test_ref --mrl $test_mrl --stat $test_dir/nbest.stats $paraphrase > $test_dir/test.report

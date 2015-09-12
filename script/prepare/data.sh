@@ -4,7 +4,6 @@
 # Philip Arthur (philip.arthur30@gmail.com)
 
 set -e # exit immediately when error
-set -o xtrace
 
 # Loading configuration
 source config.ini
